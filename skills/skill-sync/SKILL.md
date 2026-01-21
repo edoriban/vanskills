@@ -5,7 +5,7 @@ description: >
   Trigger: When updating skill metadata (metadata.scope/metadata.auto_invoke), regenerating Auto-invoke tables, or running ./bin/sync.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke:
@@ -27,7 +27,7 @@ Each skill that should appear in Auto-invoke sections needs these fields in `met
 
 ```yaml
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]                                   # Which AGENTS.md to update
 
@@ -74,7 +74,7 @@ Given this skill metadata:
 ```yaml
 # skills/react-19/SKILL.md
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Writing React components"

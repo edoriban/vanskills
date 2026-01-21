@@ -5,7 +5,7 @@ description: >
   Trigger: {When the AI should load this skill - be specific}.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "{Action that triggers this skill}"

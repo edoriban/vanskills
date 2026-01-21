@@ -5,7 +5,7 @@ description: >
   Trigger: When implementing generic DRF APIs (ViewSets, serializers, routers, permissions, filtersets).
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Generic DRF patterns"

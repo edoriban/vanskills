@@ -5,7 +5,7 @@ description: >
   Trigger: When writing or refactoring pytest tests (fixtures, mocking, parametrize, markers).
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Writing Python tests with pytest"

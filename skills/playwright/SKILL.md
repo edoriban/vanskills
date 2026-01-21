@@ -5,7 +5,7 @@ description: >
   Trigger: When writing Playwright E2E tests (Page Object Model, selectors, MCP exploration workflow).
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Writing Playwright E2E tests"

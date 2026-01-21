@@ -5,7 +5,7 @@ description: >
   Trigger: When user asks to create a new skill, add agent instructions, or document patterns for AI.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Creating new skills"
@@ -51,7 +51,7 @@ description: >
   Trigger: {When the AI should load this skill}.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "{Action that triggers this skill}"
@@ -113,7 +113,7 @@ Link to external guides?    -> references/ (with local path)
 | `name` | Yes | Skill identifier (lowercase, hyphens) |
 | `description` | Yes | What + Trigger in one block |
 | `license` | Yes | License type (e.g., `MIT`) |
-| `metadata.author` | Yes | Your identifier (e.g., `vandev`) |
+| `metadata.author` | Yes | Your identifier (e.g., `edoriban`) |
 | `metadata.version` | Yes | Semantic version as string |
 | `metadata.scope` | Yes | Which AGENTS.md files to update |
 | `metadata.auto_invoke` | Yes | Action that triggers this skill |

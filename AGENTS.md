@@ -50,7 +50,7 @@ To install these skills in any project:
 
 ```bash
 # Clone vanskills (if not already)
-git clone https://github.com/vandev/vanskills.git ~/vanskills
+git clone https://github.com/edoriban/vanskills.git ~/vanskills
 
 # Run install script from target project
 ~/vanskills/bin/install
@@ -64,5 +64,5 @@ git clone https://github.com/vandev/vanskills.git ~/vanskills
 
 ---
 
-Made with care by [vandev](https://github.com/vandev)
+Made with care by [edoriban](https://github.com/edoriban)
 

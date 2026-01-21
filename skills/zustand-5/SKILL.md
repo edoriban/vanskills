@@ -5,7 +5,7 @@ description: >
   Trigger: When implementing client-side state with Zustand (stores, selectors, persist middleware, slices).
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Using Zustand stores"

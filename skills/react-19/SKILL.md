@@ -5,7 +5,7 @@ description: >
   Trigger: When writing React 19 components/hooks in .tsx (React Compiler rules, hook patterns, refs as props). If using Next.js App Router/Server Actions, also use nextjs-15.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Writing React components"

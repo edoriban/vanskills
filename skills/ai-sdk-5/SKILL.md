@@ -5,7 +5,7 @@ description: >
   Trigger: When building AI features with AI SDK v5 (chat, streaming, tools/function calling, UIMessage parts), including migration from v4.
 license: MIT
 metadata:
-  author: vandev
+  author: edoriban
   version: "1.0"
   scope: [root]
   auto_invoke: "Building AI chat features"

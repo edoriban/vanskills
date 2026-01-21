@@ -1,6 +1,6 @@
 # VanSkills
 
-> AI Agent Skills by vandev - Portable, reusable instruction sets for AI coding assistants.
+> AI Agent Skills by edoriban - Portable, reusable instruction sets for AI coding assistants.
 
 Skills are specialized instruction sets that teach AI assistants (Claude Code, OpenCode, Gemini CLI, Codex, GitHub Copilot) how to work with specific frameworks, libraries, and patterns. They provide on-demand context so the AI writes code following best practices and conventions.
 
@@ -11,7 +11,7 @@ Skills are specialized instruction sets that teach AI assistants (Claude Code, O
 From your project directory, run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/vandev/vanskills/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/edoriban/vanskills/main/install.sh | bash
 ```
 
 This will:
@@ -24,20 +24,20 @@ This will:
 
 ```bash
 # Install for Claude only
-curl -fsSL https://raw.githubusercontent.com/vandev/vanskills/main/install.sh | VANSKILLS_ASSISTANT=claude bash
+curl -fsSL https://raw.githubusercontent.com/edoriban/vanskills/main/install.sh | VANSKILLS_ASSISTANT=claude bash
 
 # Install for all AI assistants
-curl -fsSL https://raw.githubusercontent.com/vandev/vanskills/main/install.sh | VANSKILLS_ASSISTANT=all bash
+curl -fsSL https://raw.githubusercontent.com/edoriban/vanskills/main/install.sh | VANSKILLS_ASSISTANT=all bash
 
 # Custom vanskills location
-curl -fsSL https://raw.githubusercontent.com/vandev/vanskills/main/install.sh | VANSKILLS_DIR=~/my-skills bash
+curl -fsSL https://raw.githubusercontent.com/edoriban/vanskills/main/install.sh | VANSKILLS_DIR=~/my-skills bash
 ```
 
 ### Manual installation
 
 ```bash
 # Clone repository
-git clone https://github.com/vandev/vanskills.git ~/vanskills
+git clone https://github.com/edoriban/vanskills.git ~/vanskills
 
 # Install in your project
 cd ~/your-project
@@ -103,7 +103,7 @@ cd ~/your-project
 3. **Add metadata** for auto-invoke:
    ```yaml
    metadata:
-     author: vandev
+     author: edoriban
      version: "1.0"
      scope: [root]
      auto_invoke: "Action that triggers this skill"
@@ -168,4 +168,4 @@ MIT License - Use freely, contribute back!
 
 ---
 
-Made with care by [vandev](https://github.com/vandev)
+Made with care by [edoriban](https://github.com/edoriban)

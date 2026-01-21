@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # VanSkills - Remote Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/vandev/vanskills/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/edoriban/vanskills/main/install.sh | bash
 #
 # Options (via env vars):
 #   VANSKILLS_DIR=~/vanskills     Where to clone vanskills
@@ -21,7 +21,7 @@ NC='\033[0m'
 VANSKILLS_DIR="${VANSKILLS_DIR:-$HOME/vanskills}"
 VANSKILLS_TARGET="${VANSKILLS_TARGET:-$(pwd)}"
 VANSKILLS_ASSISTANT="${VANSKILLS_ASSISTANT:-}"
-VANSKILLS_REPO="https://github.com/vandev/vanskills.git"
+VANSKILLS_REPO="https://github.com/edoriban/vanskills.git"
 
 echo -e "${BLUE}"
 echo "╔═══════════════════════════════════════╗"
