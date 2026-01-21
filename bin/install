@@ -1,0 +1,270 @@
+#!/usr/bin/env bash
+# VanSkills - Install skills to any project
+# Usage: ./bin/install [OPTIONS]
+#
+# Run this from your target project directory, or specify --target
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VANSKILLS_ROOT="$(dirname "$SCRIPT_DIR")"
+SKILLS_SOURCE="$VANSKILLS_ROOT/skills"
+AGENTS_SOURCE="$VANSKILLS_ROOT/AGENTS.md"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+# Options
+TARGET_DIR=""
+SETUP_CLAUDE=false
+SETUP_GEMINI=false
+SETUP_CODEX=false
+SETUP_COPILOT=false
+USE_SYMLINKS=true
+
+show_help() {
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Install VanSkills to a project directory."
+    echo ""
+    echo "Options:"
+    echo "  --target DIR  Target project directory (default: current directory)"
+    echo "  --all         Configure all AI assistants"
+    echo "  --claude      Configure Claude Code"
+    echo "  --gemini      Configure Gemini CLI"
+    echo "  --codex       Configure Codex (OpenAI)"
+    echo "  --copilot     Configure GitHub Copilot"
+    echo "  --copy        Copy files instead of symlinks"
+    echo "  --help        Show this help message"
+    echo ""
+    echo "If no AI assistant flags provided, runs in interactive mode."
+    echo ""
+    echo "Examples:"
+    echo "  $0                           # Interactive, current directory"
+    echo "  $0 --target ~/myproject      # Interactive, specific directory"
+    echo "  $0 --all                     # All assistants, current directory"
+    echo "  $0 --claude --codex          # Only Claude and Codex"
+}
+
+show_menu() {
+    echo -e "${BOLD}Which AI assistants do you use?${NC}"
+    echo -e "${CYAN}(Use numbers to toggle, Enter to confirm)${NC}"
+    echo ""
+
+    local options=("Claude Code" "Gemini CLI" "Codex (OpenAI)" "GitHub Copilot")
+    local selected=(true false false false)
+
+    while true; do
+        for i in "${!options[@]}"; do
+            if [ "${selected[$i]}" = true ]; then
+                echo -e "  ${GREEN}[x]${NC} $((i+1)). ${options[$i]}"
+            else
+                echo -e "  [ ] $((i+1)). ${options[$i]}"
+            fi
+        done
+        echo ""
+        echo -e "  ${YELLOW}a${NC}. Select all"
+        echo -e "  ${YELLOW}n${NC}. Select none"
+        echo ""
+        echo -n "Toggle (1-4, a, n) or Enter to confirm: "
+
+        read -r choice
+
+        case $choice in
+            1) selected[0]=$([ "${selected[0]}" = true ] && echo false || echo true) ;;
+            2) selected[1]=$([ "${selected[1]}" = true ] && echo false || echo true) ;;
+            3) selected[2]=$([ "${selected[2]}" = true ] && echo false || echo true) ;;
+            4) selected[3]=$([ "${selected[3]}" = true ] && echo false || echo true) ;;
+            a|A) selected=(true true true true) ;;
+            n|N) selected=(false false false false) ;;
+            "") break ;;
+            *) echo -e "${RED}Invalid option${NC}" ;;
+        esac
+
+        echo -en "\033[10A\033[J"
+    done
+
+    SETUP_CLAUDE=${selected[0]}
+    SETUP_GEMINI=${selected[1]}
+    SETUP_CODEX=${selected[2]}
+    SETUP_COPILOT=${selected[3]}
+}
+
+create_link_or_copy() {
+    local source="$1"
+    local target="$2"
+
+    # Remove existing
+    if [ -L "$target" ]; then
+        rm "$target"
+    elif [ -d "$target" ]; then
+        mv "$target" "$target.backup.$(date +%s)"
+    fi
+
+    if $USE_SYMLINKS; then
+        ln -s "$source" "$target"
+        echo -e "${GREEN}    -> $target (symlink)${NC}"
+    else
+        cp -r "$source" "$target"
+        echo -e "${GREEN}    -> $target (copy)${NC}"
+    fi
+}
+
+setup_claude() {
+    echo -e "${YELLOW}Setting up Claude Code...${NC}"
+
+    mkdir -p "$TARGET_DIR/.claude"
+    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.claude/skills"
+
+    # Copy AGENTS.md as CLAUDE.md
+    if [ -f "$AGENTS_SOURCE" ]; then
+        cp "$AGENTS_SOURCE" "$TARGET_DIR/CLAUDE.md"
+        echo -e "${GREEN}    -> CLAUDE.md${NC}"
+    fi
+}
+
+setup_gemini() {
+    echo -e "${YELLOW}Setting up Gemini CLI...${NC}"
+
+    mkdir -p "$TARGET_DIR/.gemini"
+    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.gemini/skills"
+
+    # Copy AGENTS.md as GEMINI.md
+    if [ -f "$AGENTS_SOURCE" ]; then
+        cp "$AGENTS_SOURCE" "$TARGET_DIR/GEMINI.md"
+        echo -e "${GREEN}    -> GEMINI.md${NC}"
+    fi
+}
+
+setup_codex() {
+    echo -e "${YELLOW}Setting up Codex (OpenAI)...${NC}"
+
+    mkdir -p "$TARGET_DIR/.codex"
+    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.codex/skills"
+
+    # Codex uses AGENTS.md natively
+    if [ -f "$AGENTS_SOURCE" ]; then
+        cp "$AGENTS_SOURCE" "$TARGET_DIR/AGENTS.md"
+        echo -e "${GREEN}    -> AGENTS.md${NC}"
+    fi
+}
+
+setup_copilot() {
+    echo -e "${YELLOW}Setting up GitHub Copilot...${NC}"
+
+    mkdir -p "$TARGET_DIR/.github"
+    if [ -f "$AGENTS_SOURCE" ]; then
+        cp "$AGENTS_SOURCE" "$TARGET_DIR/.github/copilot-instructions.md"
+        echo -e "${GREEN}    -> .github/copilot-instructions.md${NC}"
+    fi
+}
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --target)
+            TARGET_DIR="$2"
+            shift 2
+            ;;
+        --all)
+            SETUP_CLAUDE=true
+            SETUP_GEMINI=true
+            SETUP_CODEX=true
+            SETUP_COPILOT=true
+            shift
+            ;;
+        --claude)
+            SETUP_CLAUDE=true
+            shift
+            ;;
+        --gemini)
+            SETUP_GEMINI=true
+            shift
+            ;;
+        --codex)
+            SETUP_CODEX=true
+            shift
+            ;;
+        --copilot)
+            SETUP_COPILOT=true
+            shift
+            ;;
+        --copy)
+            USE_SYMLINKS=false
+            shift
+            ;;
+        --help|-h)
+            show_help
+            exit 0
+            ;;
+        *)
+            echo -e "${RED}Unknown option: $1${NC}"
+            show_help
+            exit 1
+            ;;
+    esac
+done
+
+# Default to current directory
+[ -z "$TARGET_DIR" ] && TARGET_DIR="$(pwd)"
+
+# Validate target
+if [ ! -d "$TARGET_DIR" ]; then
+    echo -e "${RED}Target directory does not exist: $TARGET_DIR${NC}"
+    exit 1
+fi
+
+# Count skills
+SKILL_COUNT=$(find "$SKILLS_SOURCE" -maxdepth 2 -name "SKILL.md" | wc -l | tr -d ' ')
+
+echo -e "${BLUE}VanSkills Installer${NC}"
+echo "==================="
+echo ""
+echo -e "Source:  ${CYAN}$VANSKILLS_ROOT${NC}"
+echo -e "Target:  ${CYAN}$TARGET_DIR${NC}"
+echo -e "Skills:  ${CYAN}$SKILL_COUNT${NC}"
+echo -e "Mode:    ${CYAN}$([ "$USE_SYMLINKS" = true ] && echo "Symlinks" || echo "Copy")${NC}"
+echo ""
+
+# Interactive mode if no flags
+if [ "$SETUP_CLAUDE" = false ] && [ "$SETUP_GEMINI" = false ] && [ "$SETUP_CODEX" = false ] && [ "$SETUP_COPILOT" = false ]; then
+    show_menu
+    echo ""
+fi
+
+# Check if at least one selected
+if [ "$SETUP_CLAUDE" = false ] && [ "$SETUP_GEMINI" = false ] && [ "$SETUP_CODEX" = false ] && [ "$SETUP_COPILOT" = false ]; then
+    echo -e "${YELLOW}No AI assistants selected. Nothing to do.${NC}"
+    exit 0
+fi
+
+# Run setups
+[ "$SETUP_CLAUDE" = true ] && setup_claude
+[ "$SETUP_GEMINI" = true ] && setup_gemini
+[ "$SETUP_CODEX" = true ] && setup_codex
+[ "$SETUP_COPILOT" = true ] && setup_copilot
+
+# Summary
+echo ""
+echo -e "${GREEN}Installation complete!${NC}"
+echo ""
+echo "Configured:"
+[ "$SETUP_CLAUDE" = true ] && echo "  - Claude Code:    .claude/skills/ + CLAUDE.md"
+[ "$SETUP_CODEX" = true ] && echo "  - Codex (OpenAI): .codex/skills/ + AGENTS.md"
+[ "$SETUP_GEMINI" = true ] && echo "  - Gemini CLI:     .gemini/skills/ + GEMINI.md"
+[ "$SETUP_COPILOT" = true ] && echo "  - GitHub Copilot: .github/copilot-instructions.md"
+echo ""
+
+if $USE_SYMLINKS; then
+    echo -e "${BLUE}Note: Skills are symlinked. Updates to vanskills will reflect automatically.${NC}"
+else
+    echo -e "${YELLOW}Note: Skills were copied. Run install again to get updates.${NC}"
+fi
+
+echo -e "${BLUE}Restart your AI assistant to load the skills.${NC}"
