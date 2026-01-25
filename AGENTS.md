@@ -27,6 +27,7 @@
 | `skill-sync` | Syncs skill metadata to AGENTS.md Auto-invoke sections. Trig... | [SKILL.md](skills/skill-sync/SKILL.md) |
 | `supabase-postgres-best-practices` | Postgres performance optimization and best practices from Su... | [SKILL.md](skills/supabase-postgres-best-practices/SKILL.md) |
 | `tailwind-4` | Tailwind CSS 4 patterns and best practices. Trigger: When st... | [SKILL.md](skills/tailwind-4/SKILL.md) |
+| `threejs-best-practices` | A curated collection of Three.js foundational knowledge for ... | [SKILL.md](skills/threejs-best-practices/SKILL.md) |
 | `typescript` | TypeScript strict patterns and best practices. Trigger: When... | [SKILL.md](skills/typescript/SKILL.md) |
 | `ui-ux-pro-max` | UI/UX design intelligence with searchable database. Comprehe... | [SKILL.md](skills/ui-ux-pro-max/SKILL.md) |
 | `vercel-react-best-practices` | React and Next.js performance optimization guidelines from V... | [SKILL.md](skills/vercel-react-best-practices/SKILL.md) |
@@ -66,6 +67,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Troubleshoot why a skill is missing from AGENTS.md | `skill-sync` |
 | Postgres performance / Supabase | `supabase-postgres-best-practices` |
 | Working with Tailwind classes | `tailwind-4` |
+| Three.js scene / 3D development / WebGL | `threejs-best-practices` |
 | Writing TypeScript types/interfaces | `typescript` |
 | UI/UX design / Design System / Prototyping | `ui-ux-pro-max` |
 | React performance / Next.js optimization | `vercel-react-best-practices` |
