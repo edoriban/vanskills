@@ -22,6 +22,7 @@
 | `react-native-architecture` | Build production React Native apps with Expo, navigation, na... | [SKILL.md](skills/react-native-architecture/SKILL.md) |
 | `react-native-design` | Master React Native styling, navigation, and Reanimated anim... | [SKILL.md](skills/react-native-design/SKILL.md) |
 | `remotion-best-practices` | Best practices for Remotion - Video creation in React. Trigg... | [SKILL.md](skills/remotion-best-practices/SKILL.md) |
+| `rust` | Expert Rust programming patterns, idiomatic practices, and m... | [SKILL.md](skills/rust/SKILL.md) |
 | `seo-audit` | When the user wants to audit, review, or diagnose SEO issues... | [SKILL.md](skills/seo-audit/SKILL.md) |
 | `skill-creator` | Creates new AI agent skills following the VanSkills spec. Tr... | [SKILL.md](skills/skill-creator/SKILL.md) |
 | `skill-sync` | Syncs skill metadata to AGENTS.md Auto-invoke sections. Trig... | [SKILL.md](skills/skill-sync/SKILL.md) |
@@ -60,6 +61,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Expo Router / Native modules / Offline-first mobile | `react-native-architecture` |
 | React Native styling / React Navigation / Reanimated animations | `react-native-design` |
 | Remotion video creation / React animations | `remotion-best-practices` |
+| Writing or refactoring Rust code | `rust` |
 | SEO audit / Technical SEO review | `seo-audit` |
 | Creating new skills | `skill-creator` |
 | After creating/modifying a skill | `skill-sync` |
