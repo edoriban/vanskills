@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: edoriban
   version: "1.0"
+  scope: [root]
   auto_invoke: "Expo Router / Native modules / Offline-first mobile"
+  dependencies:
+    - typescript
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 

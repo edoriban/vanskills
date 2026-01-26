@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# VanSkills - Update skills repository
+# Usage: ./bin/update
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "${BLUE}VanSkills Updater${NC}"
+echo "================="
+echo ""
+
+cd "$REPO_ROOT"
+
+# Check if git repo
+if [ ! -d ".git" ]; then
+    echo -e "${RED}Error: Not a git repository${NC}"
+    exit 1
+fi
+
+# Get current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo -e "Branch: ${CYAN}$BRANCH${NC}"
+
+# Check for local changes
+if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo -e "${YELLOW}Warning: You have local changes${NC}"
+    echo ""
+    read -p "Stash changes and continue? (y/N) " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        git stash push -m "vanskills-update-$(date +%s)"
+        STASHED=true
+    else
+        echo -e "${YELLOW}Update cancelled${NC}"
+        exit 0
+    fi
+fi
+
+# Fetch and pull
+echo ""
+echo -e "${BLUE}Fetching updates...${NC}"
+git fetch origin
+
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse "origin/$BRANCH")
+
+if [ "$LOCAL" = "$REMOTE" ]; then
+    echo -e "${GREEN}Already up to date!${NC}"
+else
+    echo -e "${BLUE}Pulling changes...${NC}"
+    git pull origin "$BRANCH"
+
+    # Show what changed
+    echo ""
+    echo -e "${GREEN}Updated!${NC} Changes:"
+    git log --oneline "$LOCAL..$REMOTE" | head -10
+fi
+
+# Run sync to update AGENTS.md
+echo ""
+echo -e "${BLUE}Syncing AGENTS.md...${NC}"
+"$SCRIPT_DIR/sync"
+
+# Restore stashed changes
+if [ "${STASHED:-false}" = true ]; then
+    echo ""
+    echo -e "${BLUE}Restoring stashed changes...${NC}"
+    git stash pop
+fi
+
+echo ""
+echo -e "${GREEN}Update complete!${NC}"
+echo ""
+echo "Projects using symlinks will see changes immediately."
+echo "Projects using copies need to run: ~/vanskills/bin/install --copy"

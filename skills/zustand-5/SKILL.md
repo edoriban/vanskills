@@ -9,6 +9,8 @@ metadata:
   version: "1.0"
   scope: [root]
   auto_invoke: "Using Zustand stores"
+  dependencies:
+    - typescript
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 

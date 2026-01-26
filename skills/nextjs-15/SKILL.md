@@ -9,6 +9,9 @@ metadata:
   version: "1.0"
   scope: [root]
   auto_invoke: "App Router / Server Actions"
+  dependencies:
+    - react-19
+    - typescript
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 

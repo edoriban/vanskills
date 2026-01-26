@@ -27,6 +27,8 @@ SETUP_GEMINI=false
 SETUP_CODEX=false
 SETUP_COPILOT=false
 USE_SYMLINKS=true
+SELECTED_SKILLS=""
+GENERATE_LOCK=true
 
 show_help() {
     echo "Usage: $0 [OPTIONS]"
@@ -34,22 +36,26 @@ show_help() {
     echo "Install VanSkills to a project directory."
     echo ""
     echo "Options:"
-    echo "  --target DIR  Target project directory (default: current directory)"
-    echo "  --all         Configure all AI assistants"
-    echo "  --claude      Configure Claude Code"
-    echo "  --gemini      Configure Gemini CLI"
-    echo "  --codex       Configure Codex (OpenAI)"
-    echo "  --copilot     Configure GitHub Copilot"
-    echo "  --copy        Copy files instead of symlinks"
-    echo "  --help        Show this help message"
+    echo "  --target DIR      Target project directory (default: current directory)"
+    echo "  --all             Configure all AI assistants"
+    echo "  --claude          Configure Claude Code"
+    echo "  --gemini          Configure Gemini CLI"
+    echo "  --codex           Configure Codex (OpenAI)"
+    echo "  --copilot         Configure GitHub Copilot"
+    echo "  --copy            Copy files instead of symlinks"
+    echo "  --skills LIST     Install specific skills (comma-separated)"
+    echo "  --no-lock         Don't generate .vanskills.lock file"
+    echo "  --help            Show this help message"
     echo ""
     echo "If no AI assistant flags provided, runs in interactive mode."
     echo ""
     echo "Examples:"
-    echo "  $0                           # Interactive, current directory"
-    echo "  $0 --target ~/myproject      # Interactive, specific directory"
-    echo "  $0 --all                     # All assistants, current directory"
-    echo "  $0 --claude --codex          # Only Claude and Codex"
+    echo "  $0                                  # Interactive, current directory"
+    echo "  $0 --target ~/myproject            # Interactive, specific directory"
+    echo "  $0 --all                            # All assistants, current directory"
+    echo "  $0 --claude --codex                 # Only Claude and Codex"
+    echo "  $0 --skills react-19,typescript    # Only specific skills"
+    echo "  $0 --all --skills react-19,nextjs-15,tailwind-4"
 }
 
 show_menu() {
@@ -96,6 +102,137 @@ show_menu() {
     SETUP_COPILOT=${selected[3]}
 }
 
+# Extract YAML frontmatter field
+extract_field() {
+    local file="$1"
+    local field="$2"
+    awk -v field="$field" '
+        /^---$/ { in_frontmatter = !in_frontmatter; next }
+        in_frontmatter && $1 == field":" {
+            sub(/^[^:]+:[[:space:]]*/, "")
+            if ($0 != "" && $0 != ">") {
+                gsub(/^["'\''"]|["'\''"]$/, "")
+                print
+                exit
+            }
+            getline
+            while (/^[[:space:]]/ && !/^---$/) {
+                sub(/^[[:space:]]+/, "")
+                printf "%s ", $0
+                if (!getline) break
+            }
+            print ""
+            exit
+        }
+    ' "$file" | sed 's/[[:space:]]*$//'
+}
+
+# Extract nested metadata field
+extract_metadata() {
+    local file="$1"
+    local field="$2"
+
+    awk -v field="$field" '
+        function trim(s) {
+            sub(/^[[:space:]]+/, "", s)
+            sub(/[[:space:]]+$/, "", s)
+            return s
+        }
+
+        /^---$/ { in_frontmatter = !in_frontmatter; next }
+
+        in_frontmatter && /^metadata:/ { in_metadata = 1; next }
+        in_frontmatter && in_metadata && /^[a-z]/ && !/^[[:space:]]/ { in_metadata = 0 }
+
+        in_frontmatter && in_metadata && $1 == field":" {
+            sub(/^[^:]+:[[:space:]]*/, "")
+
+            if ($0 != "") {
+                v = $0
+                gsub(/^["'\''"]|["'\''"]$/, "", v)
+                gsub(/^\[|\]$/, "", v)
+                print trim(v)
+                exit
+            }
+        }
+    ' "$file"
+}
+
+# Extract dependencies array
+extract_dependencies() {
+    local file="$1"
+
+    awk '
+        function trim(s) {
+            sub(/^[[:space:]]+/, "", s)
+            sub(/[[:space:]]+$/, "", s)
+            return s
+        }
+
+        /^---$/ { in_frontmatter = !in_frontmatter; next }
+
+        in_frontmatter && /^metadata:/ { in_metadata = 1; next }
+        in_frontmatter && in_metadata && /^[a-zA-Z]/ && !/^[[:space:]]/ { in_metadata = 0 }
+
+        in_frontmatter && in_metadata && /^[[:space:]]+dependencies:/ {
+            in_deps = 1
+            next
+        }
+
+        in_frontmatter && in_metadata && in_deps {
+            # Exit if we hit a new field (not starting with -)
+            if ($0 ~ /^[[:space:]]+[a-zA-Z_-]+:/ && $0 !~ /^[[:space:]]*-/) {
+                exit
+            }
+            # Exit if line doesnt start with spaces
+            if ($0 !~ /^[[:space:]]/) {
+                exit
+            }
+            # Process list items
+            if ($0 ~ /^[[:space:]]*-[[:space:]]/) {
+                line = $0
+                sub(/^[[:space:]]*-[[:space:]]*/, "", line)
+                line = trim(line)
+                gsub(/^["'\''"]|["'\''"]$/, "", line)
+                if (line != "" && line !~ /^#/) print line
+            }
+        }
+    ' "$file"
+}
+
+# Global arrays for dependency resolution
+declare -a _DEP_VISITED=()
+declare -a _DEP_RESOLVED=()
+
+# Resolve dependencies recursively
+resolve_dependencies() {
+    local skill="$1"
+
+    # Skip if already resolved
+    if [[ " ${_DEP_RESOLVED[*]} " =~ " ${skill} " ]]; then
+        return
+    fi
+
+    # Check for circular dependency
+    if [[ " ${_DEP_VISITED[*]} " =~ " ${skill} " ]]; then
+        echo -e "${YELLOW}Warning: Circular dependency detected for $skill${NC}" >&2
+        return
+    fi
+
+    _DEP_VISITED+=("$skill")
+
+    local skill_file="$SKILLS_SOURCE/$skill/SKILL.md"
+    if [ -f "$skill_file" ]; then
+        local deps=$(extract_dependencies "$skill_file")
+        while IFS= read -r dep; do
+            [ -z "$dep" ] && continue
+            resolve_dependencies "$dep"
+        done <<< "$deps"
+    fi
+
+    _DEP_RESOLVED+=("$skill")
+}
+
 create_link_or_copy() {
     local source="$1"
     local target="$2"
@@ -116,11 +253,78 @@ create_link_or_copy() {
     fi
 }
 
+# Copy specific skills instead of entire directory
+copy_selected_skills() {
+    local target_skills_dir="$1"
+    shift
+    local skills=("$@")
+
+    mkdir -p "$target_skills_dir"
+
+    for skill in "${skills[@]}"; do
+        local skill_source="$SKILLS_SOURCE/$skill"
+        local skill_target="$target_skills_dir/$skill"
+
+        if [ -d "$skill_source" ]; then
+            # Remove existing
+            if [ -L "$skill_target" ]; then
+                rm "$skill_target"
+            elif [ -d "$skill_target" ]; then
+                rm -rf "$skill_target"
+            fi
+
+            if $USE_SYMLINKS; then
+                ln -s "$skill_source" "$skill_target"
+            else
+                cp -r "$skill_source" "$skill_target"
+            fi
+        fi
+    done
+}
+
+generate_lock_file() {
+    local target="$1"
+    shift
+    local skills=("$@")
+
+    local lock_file="$target/.vanskills.lock"
+
+    echo "# VanSkills Lock File" > "$lock_file"
+    echo "# Auto-generated - do not edit manually" >> "$lock_file"
+    echo "# To update: run ~/vanskills/bin/install again" >> "$lock_file"
+    echo "" >> "$lock_file"
+    echo "generated: $(date -Iseconds)" >> "$lock_file"
+    echo "vanskills_version: $(cd "$VANSKILLS_ROOT" && git rev-parse --short HEAD 2>/dev/null || echo "unknown")" >> "$lock_file"
+    echo "mode: $([ "$USE_SYMLINKS" = true ] && echo "symlink" || echo "copy")" >> "$lock_file"
+    echo "" >> "$lock_file"
+    echo "skills:" >> "$lock_file"
+
+    for skill in "${skills[@]}"; do
+        local skill_file="$SKILLS_SOURCE/$skill/SKILL.md"
+        if [ -f "$skill_file" ]; then
+            local version=$(extract_metadata "$skill_file" "version")
+            [ -z "$version" ] && version="1.0"
+            echo "  - name: $skill" >> "$lock_file"
+            echo "    version: \"$version\"" >> "$lock_file"
+        fi
+    done
+
+    echo -e "${GREEN}    -> .vanskills.lock${NC}"
+}
+
 setup_claude() {
+    local skills_to_install=("$@")
+
     echo -e "${YELLOW}Setting up Claude Code...${NC}"
 
     mkdir -p "$TARGET_DIR/.claude"
-    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.claude/skills"
+
+    if [ ${#skills_to_install[@]} -gt 0 ]; then
+        copy_selected_skills "$TARGET_DIR/.claude/skills" "${skills_to_install[@]}"
+        echo -e "${GREEN}    -> .claude/skills/ (${#skills_to_install[@]} skills)${NC}"
+    else
+        create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.claude/skills"
+    fi
 
     # Copy AGENTS.md as CLAUDE.md
     if [ -f "$AGENTS_SOURCE" ]; then
@@ -130,10 +334,18 @@ setup_claude() {
 }
 
 setup_gemini() {
+    local skills_to_install=("$@")
+
     echo -e "${YELLOW}Setting up Gemini CLI...${NC}"
 
     mkdir -p "$TARGET_DIR/.gemini"
-    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.gemini/skills"
+
+    if [ ${#skills_to_install[@]} -gt 0 ]; then
+        copy_selected_skills "$TARGET_DIR/.gemini/skills" "${skills_to_install[@]}"
+        echo -e "${GREEN}    -> .gemini/skills/ (${#skills_to_install[@]} skills)${NC}"
+    else
+        create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.gemini/skills"
+    fi
 
     # Copy AGENTS.md as GEMINI.md
     if [ -f "$AGENTS_SOURCE" ]; then
@@ -143,10 +355,18 @@ setup_gemini() {
 }
 
 setup_codex() {
+    local skills_to_install=("$@")
+
     echo -e "${YELLOW}Setting up Codex (OpenAI)...${NC}"
 
     mkdir -p "$TARGET_DIR/.codex"
-    create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.codex/skills"
+
+    if [ ${#skills_to_install[@]} -gt 0 ]; then
+        copy_selected_skills "$TARGET_DIR/.codex/skills" "${skills_to_install[@]}"
+        echo -e "${GREEN}    -> .codex/skills/ (${#skills_to_install[@]} skills)${NC}"
+    else
+        create_link_or_copy "$SKILLS_SOURCE" "$TARGET_DIR/.codex/skills"
+    fi
 
     # Codex uses AGENTS.md natively
     if [ -f "$AGENTS_SOURCE" ]; then
@@ -199,6 +419,14 @@ while [[ $# -gt 0 ]]; do
             USE_SYMLINKS=false
             shift
             ;;
+        --skills)
+            SELECTED_SKILLS="$2"
+            shift 2
+            ;;
+        --no-lock)
+            GENERATE_LOCK=false
+            shift
+            ;;
         --help|-h)
             show_help
             exit 0
@@ -220,8 +448,41 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
+# Process selected skills and resolve dependencies
+declare -a FINAL_SKILLS=()
+
+if [ -n "$SELECTED_SKILLS" ]; then
+    echo -e "${BLUE}Resolving skill dependencies...${NC}"
+
+    # Parse comma-separated skills
+    IFS=',' read -ra INITIAL_SKILLS <<< "$SELECTED_SKILLS"
+
+    # Reset global arrays
+    _DEP_VISITED=()
+    _DEP_RESOLVED=()
+
+    for skill in "${INITIAL_SKILLS[@]}"; do
+        skill=$(echo "$skill" | tr -d ' ')
+        if [ -d "$SKILLS_SOURCE/$skill" ]; then
+            resolve_dependencies "$skill"
+        else
+            echo -e "${YELLOW}Warning: Skill '$skill' not found, skipping${NC}"
+        fi
+    done
+
+    FINAL_SKILLS=("${_DEP_RESOLVED[@]}")
+
+    if [ ${#FINAL_SKILLS[@]} -gt ${#INITIAL_SKILLS[@]} ]; then
+        echo -e "${GREEN}Added ${#_DEP_RESOLVED[@]} skills (including dependencies)${NC}"
+    fi
+fi
+
 # Count skills
-SKILL_COUNT=$(find "$SKILLS_SOURCE" -maxdepth 2 -name "SKILL.md" | wc -l | tr -d ' ')
+if [ ${#FINAL_SKILLS[@]} -gt 0 ]; then
+    SKILL_COUNT=${#FINAL_SKILLS[@]}
+else
+    SKILL_COUNT=$(find "$SKILLS_SOURCE" -maxdepth 2 -name "SKILL.md" | wc -l | tr -d ' ')
+fi
 
 echo -e "${BLUE}VanSkills Installer${NC}"
 echo "==================="
@@ -230,6 +491,10 @@ echo -e "Source:  ${CYAN}$VANSKILLS_ROOT${NC}"
 echo -e "Target:  ${CYAN}$TARGET_DIR${NC}"
 echo -e "Skills:  ${CYAN}$SKILL_COUNT${NC}"
 echo -e "Mode:    ${CYAN}$([ "$USE_SYMLINKS" = true ] && echo "Symlinks" || echo "Copy")${NC}"
+
+if [ ${#FINAL_SKILLS[@]} -gt 0 ]; then
+    echo -e "Selected: ${CYAN}${FINAL_SKILLS[*]}${NC}"
+fi
 echo ""
 
 # Interactive mode if no flags
@@ -245,10 +510,25 @@ if [ "$SETUP_CLAUDE" = false ] && [ "$SETUP_GEMINI" = false ] && [ "$SETUP_CODEX
 fi
 
 # Run setups
-[ "$SETUP_CLAUDE" = true ] && setup_claude
-[ "$SETUP_GEMINI" = true ] && setup_gemini
-[ "$SETUP_CODEX" = true ] && setup_codex
+[ "$SETUP_CLAUDE" = true ] && setup_claude "${FINAL_SKILLS[@]}"
+[ "$SETUP_GEMINI" = true ] && setup_gemini "${FINAL_SKILLS[@]}"
+[ "$SETUP_CODEX" = true ] && setup_codex "${FINAL_SKILLS[@]}"
 [ "$SETUP_COPILOT" = true ] && setup_copilot
+
+# Generate lock file
+if $GENERATE_LOCK; then
+    if [ ${#FINAL_SKILLS[@]} -gt 0 ]; then
+        generate_lock_file "$TARGET_DIR" "${FINAL_SKILLS[@]}"
+    else
+        # Get all skills for lock file
+        declare -a all_skills=()
+        while IFS= read -r skill_file; do
+            skill_name=$(basename "$(dirname "$skill_file")")
+            all_skills+=("$skill_name")
+        done < <(find "$SKILLS_SOURCE" -maxdepth 2 -name "SKILL.md" -print | sort)
+        generate_lock_file "$TARGET_DIR" "${all_skills[@]}"
+    fi
+fi
 
 # Summary
 echo ""
@@ -261,8 +541,18 @@ echo "Configured:"
 [ "$SETUP_COPILOT" = true ] && echo "  - GitHub Copilot: .github/copilot-instructions.md"
 echo ""
 
-if $USE_SYMLINKS; then
+if [ ${#FINAL_SKILLS[@]} -gt 0 ]; then
+    echo -e "${BLUE}Installed skills:${NC}"
+    for skill in "${FINAL_SKILLS[@]}"; do
+        echo "  - $skill"
+    done
+    echo ""
+fi
+
+if $USE_SYMLINKS && [ ${#FINAL_SKILLS[@]} -eq 0 ]; then
     echo -e "${BLUE}Note: Skills are symlinked. Updates to vanskills will reflect automatically.${NC}"
+elif $USE_SYMLINKS; then
+    echo -e "${BLUE}Note: Selected skills are symlinked individually.${NC}"
 else
     echo -e "${YELLOW}Note: Skills were copied. Run install again to get updates.${NC}"
 fi

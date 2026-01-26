@@ -9,6 +9,9 @@ metadata:
   version: "1.0"
   scope: [root]
   auto_invoke: "{Action that triggers this skill}"
+  dependencies:
+    # - typescript  # Uncomment to require other skills
+    # - react-19
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 
