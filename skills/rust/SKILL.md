@@ -20,20 +20,23 @@ A comprehensive guide to writing safe, concurrent, and fast Rust code, derived f
 
 | Category | Description | Prefix |
 |----------|-------------|--------|
-| **Core** | Ownership, Borrowing, Lifetimes | `ownership-` |
-| **Safety** | Error Handling (Result/Option), Unsafe Code | `error-handling-`, `unsafe-` |
-| **Systems** | Concurrency (Async/Threads), Smart Pointers | `concurrency-`, `smart-pointers-` |
-| **Quality** | Performance, Anti-patterns, Testing | `performance-`, `anti-patterns-` |
+| **Core** | Ownership, Borrowing, Lifetimes, Mutability | `ownership-`, `mutability-`, `mental-models-` |
+| **Safety** | Error Handling (Result/Option), Unsafe Code, Types | `error-handling-`, `unsafe-`, `type-driven-` |
+| **Systems** | Concurrency, Smart Pointers, Zero-Cost | `concurrency-`, `smart-pointers-`, `zero-cost-` |
+| **Design** | Domain Modeling, Domain Errors, Ecosystem | `domain-modeling-`, `domain-error-`, `ecosystem-` |
+| **Quality** | Performance, Anti-patterns, Lifecycle | `performance-`, `anti-patterns-`, `lifecycle-` |
 
 ## How to Use This Skill
 
 1. **Identify the Challenge**: determining if you are fighting the borrow checker, designing an API, or optimizing performance.
 2. **Consult Rules**:
-   - `ownership.md`: For E0382, E0597, and lifetime issues.
-   - `error-handling.md`: For `Result`, `Option`, and error crate selection (anyhow vs thiserror).
-   - `concurrency.md`: For `async`, `tokio`, and thread safety (`Send` + `Sync`).
-   - `smart-pointers.md`: For `Box`, `Rc`, `Arc`, `RefCell`, `Cow`.
-   - `unsafe.md`: Checklist before using `unsafe`.
+   - `ownership.md` / `mental-models.md`: For E0382, lifetimes, and "thinking in Rust".
+   - `domain-modeling.md`: For Entity vs Value Object decisions.
+   - `mutability.md`: For `Cell`, `RefCell`, `Mutex`, and interior mutability.
+   - `type-driven.md`: For Newtype, Builder, and Type State patterns.
+   - `error-handling.md`: For `Result`, `Option`, and error crate selection.
+   - `concurrency.md`: For `async`, `tokio`, and thread safety.
+   - `ecosystem.md`: For crate selection, Cargo features, and FFI.
 
 ## Core Principles
 
