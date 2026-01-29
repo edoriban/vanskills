@@ -85,12 +85,14 @@ User asks to create issues/project
 Present a summary table to the user before creating anything:
 
 ```
-Voy a crear X issues organizados así:
-| Módulo            | Issues | Descripción              |
-|-------------------|--------|--------------------------|
-| Setup             | 3      | Toolchain, DB, migrations|
-| Machine Inventory | 4      | Models, repo, svc, API   |
-| ...               | ...    | ...                      |
+Voy a crear X issues organizados en Y milestones:
+
+| Milestone                  | Issues | Descripción               |
+|----------------------------|--------|---------------------------|
+| M1: Infrastructure & Auth  | 8      | Setup, DB, JWT, errors    |
+| M2: Machine Inventory      | 5      | Models, repo, svc, API    |
+| M3: Document Management    | 6      | Storage, versioning, API  |
+| ...                        | ...    | ...                       |
 
 ¿Procedo?
 ```
@@ -99,7 +101,36 @@ Voy a crear X issues organizados así:
 
 ## Workflow
 
-### Step 1: Create the GitHub Project
+### Step 1: Create milestones
+
+Group issues by milestone BEFORE creating them. Each milestone represents a deliverable phase.
+
+```bash
+gh api repos/<org>/<repo>/milestones \
+  -f title="M1: Infrastructure & Auth" \
+  -f description="Setup, database, environment, JWT auth, error handling"
+```
+
+After creating all milestones, assign issues to them during creation (Step 2) or after:
+
+```bash
+gh issue edit <number> --milestone "M1: Infrastructure & Auth"
+```
+
+Milestone naming convention: `M<number>: <Phase Name>`
+
+Example milestone structure:
+
+| Milestone | Scope | Includes tests? |
+|-----------|-------|-----------------|
+| M1: Infrastructure & Auth | Setup, DB, config, auth, error handling | No (infra) |
+| M2: Feature Module A | Models, repo, service, handlers | Yes |
+| M3: Feature Module B | Models, repo, service, handlers | Yes |
+| M4: Frontend | UI setup, pages per module | No (separate) |
+
+Each feature milestone should include its corresponding integration tests.
+
+### Step 2: Create the GitHub Project
 
 ```bash
 gh project create --owner <org-or-user> --title "<Project Name>" --format json
@@ -107,15 +138,16 @@ gh project create --owner <org-or-user> --title "<Project Name>" --format json
 
 Save the returned `id` (e.g., `PVT_kwDO...`) and `number` for later steps.
 
-### Step 2: Create issues from source document
+### Step 3: Create issues grouped by milestone
 
-Read the README, spec, or design document and create issues organized by module.
+Create issues organized by milestone. Complete one milestone group before moving to the next so issue numbers are sequential per phase.
 
 Each issue MUST include:
 
 - **Title**: Conventional format `<type>(<scope>): <description>`
 - **Body**: Detailed description with bullet points, acceptance criteria, and file paths to modify
 - **Assignee**: The developer responsible
+- **Milestone**: The milestone this issue belongs to
 
 ```bash
 gh issue create \
@@ -126,10 +158,11 @@ gh issue create \
 - DELETE /api/machines/:id (soft delete)
 
 Files: crates/api/src/handlers/, crates/api/src/routes/" \
-  --assignee <username>
+  --assignee <username> \
+  --milestone "M2: Machine Inventory"
 ```
 
-### Step 3: Add all issues to the Project
+### Step 4: Add all issues to the Project
 
 ```bash
 for i in $(seq <first> <last>); do
@@ -138,7 +171,7 @@ for i in $(seq <first> <last>); do
 done
 ```
 
-### Step 4: Link Project to repository
+### Step 5: Link Project to repository
 
 This is REQUIRED for the Project to appear in the repository's Projects tab.
 
@@ -154,7 +187,7 @@ mutation($projectId: ID!, $repositoryId: ID!) {
 }' -f projectId="$PROJECT_ID" -f repositoryId="$REPO_ID"
 ```
 
-### Step 5: Verify
+### Step 6: Verify
 
 ```bash
 # Verify all issues are in the Project
@@ -199,11 +232,17 @@ Files: <paths to files that will be created or modified>
 ## Commands Reference
 
 ```bash
+# Create milestone
+gh api repos/<org>/<repo>/milestones -f title="M1: Phase Name" -f description="Description"
+
 # Create project
 gh project create --owner <org> --title "<name>" --format json
 
-# Create issue
-gh issue create --title "<title>" --body "<body>" --assignee <user>
+# Create issue (with milestone)
+gh issue create --title "<title>" --body "<body>" --assignee <user> --milestone "M1: Phase Name"
+
+# Assign milestone to existing issue
+gh issue edit <number> --milestone "M1: Phase Name"
 
 # Add issue to project
 gh project item-add <number> --owner <org> --url <issue-url>
