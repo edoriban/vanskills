@@ -12,6 +12,7 @@
 | `efficientad` | Anomaly detection patterns using EfficientAD for industrial ... | [SKILL.md](skills/efficientad/SKILL.md) |
 | `frontend-design` | Create distinctive, production-grade frontend interfaces wit... | [SKILL.md](skills/frontend-design/SKILL.md) |
 | `git-convention` | Conventional Commits patterns with detailed body. | [SKILL.md](skills/git-convention/SKILL.md) |
+| `github-project-setup` | Create GitHub Projects with issues, milestones, and link the... | [SKILL.md](skills/github-project-setup/SKILL.md) |
 | `marketing-psychology` | When the user wants to apply psychological principles, menta... | [SKILL.md](skills/marketing-psychology/SKILL.md) |
 | `nextjs-15` | Next.js 15 App Router patterns. Trigger: When working in Nex... | [SKILL.md](skills/nextjs-15/SKILL.md) |
 | `playwright` | Playwright E2E testing patterns. Trigger: When writing Playw... | [SKILL.md](skills/playwright/SKILL.md) |
@@ -51,6 +52,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Implementing anomaly detection models using EfficientAD | `efficientad` |
 | UI design / Web beautification / Frontend layout | `frontend-design` |
 | Creating a git commit | `git-convention` |
+| Creating GitHub Projects or bulk issues | `github-project-setup` |
 | Marketing psychology / Behavioral science | `marketing-psychology` |
 | App Router / Server Actions | `nextjs-15` |
 | Writing Playwright E2E tests | `playwright` |
