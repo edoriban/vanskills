@@ -32,6 +32,7 @@
 | `threejs-best-practices` | A curated collection of Three.js foundational knowledge for ... | [SKILL.md](skills/threejs-best-practices/SKILL.md) |
 | `typescript` | TypeScript strict patterns and best practices. Trigger: When... | [SKILL.md](skills/typescript/SKILL.md) |
 | `ui-ux-pro-max` | UI/UX design intelligence with searchable database. Comprehe... | [SKILL.md](skills/ui-ux-pro-max/SKILL.md) |
+| `veeam-cdp-best-practices` | Veeam Backup & Replication and CDP infrastructure best pract... | [SKILL.md](skills/veeam-cdp-best-practices/SKILL.md) |
 | `vercel-react-best-practices` | React and Next.js performance optimization guidelines from V... | [SKILL.md](skills/vercel-react-best-practices/SKILL.md) |
 | `web-design-guidelines` | Review UI code for Web Interface Guidelines compliance. Trig... | [SKILL.md](skills/web-design-guidelines/SKILL.md) |
 | `yolo` | Computer vision patterns for object detection, segmentation,... | [SKILL.md](skills/yolo/SKILL.md) |
@@ -74,6 +75,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Three.js scene / 3D development / WebGL | `threejs-best-practices` |
 | Writing TypeScript types/interfaces | `typescript` |
 | UI/UX design / Design System / Prototyping | `ui-ux-pro-max` |
+| Veeam backup / CDP / Disaster Recovery planning | `veeam-cdp-best-practices` |
 | React performance / Next.js optimization | `vercel-react-best-practices` |
 | UI review / Web accessibility | `web-design-guidelines` |
 | Implementing computer vision models using YOLO | `yolo` |
