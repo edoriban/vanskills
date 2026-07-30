@@ -212,6 +212,8 @@ FOR EACH REQUIREMENT in specs/:
 
 A spec scenario is only considered COMPLIANT when there is a test that passed proving the behavior at runtime. Code existing in the codebase is NOT sufficient evidence.
 
+**Precedence**: in ponytail/minimal mode, a single runnable self-check (assert-based demo/`__main__` or one test file) covering the change's core logic satisfies scenarios for trivial paths; full per-scenario coverage applies to money/security/data-loss paths and explicit spec scenarios.
+
 ### Step 7: Persist Verification Report
 
 Persist the report according to the resolved `artifact_store.mode`, following the conventions in `~/vanskills/skills/_sdd-shared/`:

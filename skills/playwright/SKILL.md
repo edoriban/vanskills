@@ -28,6 +28,8 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 
 ## File Structure
 
+**Precedence**: the POM scaffold below is required from ~3+ pages or shared flows; for 1-2 pages a single spec file with inline locators is correct (`ponytail` precedence). MCP exploration stays mandatory when available.
+
 ```
 tests/
 ├── base-page.ts              # Parent class for ALL pages

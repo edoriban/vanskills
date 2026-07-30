@@ -33,7 +33,7 @@ Check if Python is installed:
 python3 --version || python --version
 ```
 
-If Python is not installed, install it based on user's OS.
+If Python is unavailable, fall back to reading the CSVs directly.
 
 ---
 
@@ -49,9 +49,11 @@ Extract key information from user request:
 - **Industry**: healthcare, fintech, gaming, education, etc.
 - **Stack**: React, React Native, Next.js, or default to `html-tailwind`
 
-### Step 2: Generate Design System (REQUIRED)
+### Step 2: Generate Design System (REQUIRED for new pages/sections or full redesigns)
 
-**Always start with `--design-system`** to get comprehensive recommendations with reasoning:
+**Precedence**: for small tweaks (single component, copy, color) skip the pipeline and edit directly (`ponytail` precedence).
+
+**Start with `--design-system`** to get comprehensive recommendations with reasoning:
 
 ```bash
 python3 skills/ui-ux-pro-max/scripts/search.py "<product_type> <industry> <keywords>" --design-system [-p "Project Name"]

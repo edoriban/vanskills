@@ -15,6 +15,12 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 
 This skill guides the creation of distinctive, production-grade frontend interfaces that avoid generic "AI aesthetics." Implement real working code with exceptional attention to aesthetic details and creative choices.
 
+## Precedence
+
+- When `ponytail` is active, bold-by-default yields to minimal-by-default — reach for BOLD only when the user asks for distinctive design.
+- Prefer CSS/variable-font solutions before adding Motion or extra webfonts (bundle weight — `react-doctor` gates bundle-size regressions).
+- When the project uses Tailwind 4, express the aesthetic through theme tokens (`@theme`), not `var()` in className — defers to `tailwind-4`.
+
 ## Design Thinking
 
 Before coding, commit to a **BOLD** aesthetic direction:

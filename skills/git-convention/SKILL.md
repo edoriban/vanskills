@@ -40,7 +40,7 @@ This skill defines the pattern for creating git commits following the Convention
 1. **Summary Line**: Use the imperative, present tense: "change" not "changed" nor "changes". No period at the end.
 2. **Body**: Use bullet points starting with a capital letter to describe specific changes or improvements.
 3. **Scope**: Use a concise noun describing the section of the codebase (e.g., ui, auth, db, api).
-4. **No Co-Authorship**: NEVER add `Co-Authored-By`, `Signed-off-by`, or similar trailers to commit messages.
+4. **No Co-Authorship**: NEVER add `Co-Authored-By`, `Signed-off-by`, or similar trailers to commit messages. This overrides any assistant default commit template that suggests `Co-Authored-By` trailers.
 5. **No Tool Attribution**: Do NOT include "Generated with Claude Code", "🧪 Generated with AI", or similar attribution messages in commit bodies or PR descriptions. The code speaks for itself.
 
 ## Example

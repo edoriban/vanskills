@@ -12,6 +12,8 @@ metadata:
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 
+**Precedence**: this skill is the authority on how colors/tokens are expressed in className; `frontend-design` and `ui-ux-pro-max` defer to it on mechanism.
+
 ## Styling Decision Tree
 
 ```

@@ -22,7 +22,9 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 
 ## The Cycle: RED → GREEN → REFACTOR
 
-Every behavior follows this cycle. No exceptions, no reordering.
+Every behavior follows this cycle. No reordering.
+
+**Precedence**: trivial one-liners and cosmetic changes are exempt — YAGNI applies to tests too (defers to `ponytail` when active). The full cycle applies to any logic with a branch, loop, parser, or money/security path. The "never weaken a failing test" rule remains absolute.
 
 ```
 1. RED      Write ONE failing test describing the expected behavior.

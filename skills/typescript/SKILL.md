@@ -30,6 +30,8 @@ type Status = "active" | "inactive" | "pending";
 
 **Why?** Single source of truth, runtime values, autocomplete, easier refactoring.
 
+**Precedence**: unions of ≤3 literal values used in one place may stay inline unions; reach for the const map when values are iterated, mapped, or reused (defers to `ponytail`'s one-line rule).
+
 ## Flat Interfaces (REQUIRED)
 
 ```typescript
