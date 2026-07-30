@@ -1,13 +1,13 @@
 ---
 name: react-native-design
 description: >
-  Master React Native styling, navigation, and Reanimated animations for cross-platform mobile development.
-  Trigger: When building React Native apps, implementing navigation patterns, or creating performant animations.
+  Master React Native styling, navigation, animations, and app architecture (auth, native modules, offline-first) for cross-platform mobile development.
+  Trigger: When building or architecting React Native apps, implementing navigation, native modules, offline sync, or performant animations.
 license: MIT
 metadata:
   author: edoriban
-  version: "1.0"
-  auto_invoke: "React Native styling / React Navigation / Reanimated animations"
+  version: "1.1"
+  auto_invoke: "React Native styling / React Navigation / Reanimated animations / Native modules / EAS / Offline-first mobile / RN architecture"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 
@@ -24,6 +24,10 @@ Comprehensive guide for mobile UI/UX development using React Native, Reanimated,
 | Navigation | Stack, Tab, Drawer navigators (React Nav 6+) | `navigation-` |
 | Animation | Reanimated 3, shared values, spring/timing | `animations-` |
 | Gestures | Pan, Tap, Pinch gestures with Gesture Handler | `gestures-` |
+| Setup | Project structure, CLI commands, decision trees | `project-` |
+| Auth | Authentication flows, SecureStore, protected routes | `auth-` |
+| Data | React Query, offline persistence, optimistic UI | `data-` |
+| Native | Native modules, EAS Build, high-performance lists | `native-` |
 
 ## How to Use This Skill Efficiently
 

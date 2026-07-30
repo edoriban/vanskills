@@ -4,10 +4,8 @@
 
 ```
 src/
-├── app/                    # Expo Router screens
-│   ├── (auth)/            # Auth group
-│   ├── (tabs)/            # Tab navigation
-│   └── _layout.tsx        # Root layout
+├── screens/                # Screen components (React Navigation)
+├── navigation/             # Navigators (stacks, tabs) and param types
 ├── components/
 │   ├── ui/                # Reusable UI components
 │   └── features/          # Feature-specific components
@@ -36,13 +34,9 @@ Animations?            -> Use Reanimated (native thread)
 npx create-expo-app@latest my-app -t expo-template-blank-typescript
 
 # Install essentials
-npx expo install expo-router expo-status-bar react-native-safe-area-context
+npx expo install @react-navigation/native @react-navigation/native-stack react-native-screens
+npx expo install expo-status-bar react-native-safe-area-context
 npx expo install @react-native-async-storage/async-storage expo-secure-store
-
-# Navigation
-router.push('/profile/123')           # Push screen
-router.replace('/login')              # Replace screen
-router.back()                         # Go back
 
 # OTA Updates
 eas update --branch production --message "Bug fixes"

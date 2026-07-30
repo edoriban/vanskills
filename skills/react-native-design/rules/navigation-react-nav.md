@@ -1,5 +1,7 @@
 # React Navigation Patterns
 
+> This repo standardizes on React Navigation; expo-router is not used.
+
 ## Stack Navigator
 
 ```tsx

@@ -5,7 +5,6 @@
 ```tsx
 // providers/AuthProvider.tsx
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useRouter, useSegments } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 
 interface AuthContextType {
@@ -20,25 +19,10 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const segments = useSegments()
-  const router = useRouter()
 
   useEffect(() => {
     checkAuth()
   }, [])
-
-  // Protect routes
-  useEffect(() => {
-    if (isLoading) return
-
-    const inAuthGroup = segments[0] === '(auth)'
-
-    if (!user && !inAuthGroup) {
-      router.replace('/login')
-    } else if (user && inAuthGroup) {
-      router.replace('/(tabs)')
-    }
-  }, [user, segments, isLoading])
 
   async function checkAuth() {
     try {
@@ -78,5 +62,20 @@ export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) throw new Error('useAuth must be used within AuthProvider')
   return context
+}
+```
+
+## Protected Routes (React Navigation)
+
+Switch navigators based on auth state — no imperative redirects needed:
+
+```tsx
+function RootNavigator() {
+  const { user } = useAuth()
+  return (
+    <NavigationContainer>
+      {user ? <AppStack /> : <AuthStack />}
+    </NavigationContainer>
+  )
 }
 ```
