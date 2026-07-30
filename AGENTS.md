@@ -10,6 +10,7 @@
 | `api-security-best-practices` | Implement secure API design patterns including authenticatio... | [SKILL.md](skills/api-security-best-practices/SKILL.md) |
 | `django-drf` | Django REST Framework patterns. Trigger: When implementing g... | [SKILL.md](skills/django-drf/SKILL.md) |
 | `efficientad` | Anomaly detection patterns using EfficientAD for industrial ... | [SKILL.md](skills/efficientad/SKILL.md) |
+| `executing` | Harness, loop, and adversarial-verification rules — the scaf... | [SKILL.md](skills/executing/SKILL.md) |
 | `frontend-design` | Create distinctive, production-grade frontend interfaces wit... | [SKILL.md](skills/frontend-design/SKILL.md) |
 | `git-convention` | Conventional Commits patterns with detailed body. | [SKILL.md](skills/git-convention/SKILL.md) |
 | `github-project-setup` | Create GitHub Projects with issues, milestones, and link the... | [SKILL.md](skills/github-project-setup/SKILL.md) |
@@ -18,6 +19,7 @@
 | `nextjs-15` | Next.js 15 App Router patterns. Trigger: When working in Nex... | [SKILL.md](skills/nextjs-15/SKILL.md) |
 | `playwright` | Playwright E2E testing patterns. Trigger: When writing Playw... | [SKILL.md](skills/playwright/SKILL.md) |
 | `project-standards` | Package (pnpm) and Python (conda) management patterns. | [SKILL.md](skills/project-standards/SKILL.md) |
+| `prompting` | Prompt engineering and context engineering rules — how to wo... | [SKILL.md](skills/prompting/SKILL.md) |
 | `pytest` | Pytest testing patterns for Python. Trigger: When writing or... | [SKILL.md](skills/pytest/SKILL.md) |
 | `python` | Python idiomatic patterns, type hinting, and best practices.... | [SKILL.md](skills/python/SKILL.md) |
 | `react-19` | React 19 patterns with React Compiler. Trigger: When writing... | [SKILL.md](skills/react-19/SKILL.md) |
@@ -62,6 +64,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | API Security / Authentication | `api-security-best-practices` |
 | Generic DRF patterns | `django-drf` |
 | Implementing anomaly detection models using EfficientAD | `efficientad` |
+| Designing an agent loop, verification gate, or multi-agent workflow | `executing` |
 | UI design / Web beautification / Frontend layout | `frontend-design` |
 | Creating a git commit | `git-convention` |
 | Creating GitHub Projects or bulk issues | `github-project-setup` |
@@ -70,6 +73,7 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | App Router / Server Actions | `nextjs-15` |
 | Writing Playwright E2E tests | `playwright` |
 | Managing project dependencies or environments | `project-standards` |
+| Writing or revising a prompt, skill, CLAUDE.md, or sub-agent brief | `prompting` |
 | Writing Python tests with pytest | `pytest` |
 | Writing or refactoring Python code | `python` |
 | Writing React components | `react-19` |
