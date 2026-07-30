@@ -25,8 +25,7 @@ Comprehensive performance optimization guide for React and Next.js applications,
 | 4 | Client-Side Data Fetching | MEDIUM-HIGH | `client-` |
 | 5 | Re-render Optimization | MEDIUM | `rerender-` |
 | 6 | Rendering Performance | MEDIUM | `rendering-` |
-| 7 | JavaScript Performance | LOW-MEDIUM | `js-` |
-| 8 | Advanced Patterns | LOW | `advanced-` |
+| 7 | Advanced Patterns | LOW | `advanced-` |
 
 ## How to Use This Skill Efficiently
 
@@ -51,3 +50,8 @@ Once identified, read the full rule for detailed code examples:
 3. **Server Security**: Always authenticate inside Server Actions; treat them like public API endpoints.
 4. **Derived State**: Compute values during render; avoid redundant `useState` + `useEffect` for data that can be derived.
 5. **Stable Callbacks**: Use functional updates `setCount(c => c + 1)` and `useEffectEvent` to maintain stable references.
+6. **Memoization**: This skill defers to the `react-19` skill on memoization. With React 19 + React Compiler, do NOT manually add `useMemo`/`useCallback`/`React.memo` — the `rerender-memo*` rules only apply when the Compiler is not enabled.
+
+## Cross-References
+
+- `react-19` — authoritative on memoization (React Compiler replaces manual memoization).

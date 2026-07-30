@@ -2,7 +2,7 @@
 name: ui-ux-pro-max
 description: >
   UI/UX design intelligence with searchable database.
-  Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 56 font pairings, 98 UX guidelines, and 25 chart types across 13 technology stacks. Searchable database with priority-based recommendations.
+  Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 56 font pairings, 98 UX guidelines, and 25 chart types across 6 technology stacks. Searchable database with priority-based recommendations.
   Trigger: When building UI/UX, designing systems, or prototyping.
 license: MIT
 metadata:
@@ -14,7 +14,7 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 
 # UI UX Pro Max
 
-Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 56 font pairings, 98 UX guidelines, and 25 chart types across 13 technology stacks. Searchable database with priority-based recommendations.
+Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 56 font pairings, 98 UX guidelines, and 25 chart types across 6 technology stacks. Searchable database with priority-based recommendations.
 
 ## When to Apply
 
@@ -47,7 +47,7 @@ Extract key information from user request:
 - **Product type**: SaaS, e-commerce, portfolio, dashboard, landing page, etc.
 - **Style keywords**: minimal, playful, professional, elegant, dark mode, etc.
 - **Industry**: healthcare, fintech, gaming, education, etc.
-- **Stack**: React, Vue, Next.js, or default to `html-tailwind`
+- **Stack**: React, React Native, Next.js, or default to `html-tailwind`
 
 ### Step 2: Generate Design System (REQUIRED)
 
@@ -116,7 +116,6 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
 | `landing` | Page structure, CTA strategies | hero, hero-centric, testimonial, pricing, social-proof |
 | `chart` | Chart types, library recommendations | trend, comparison, timeline, funnel, pie |
 | `ux` | Best practices, anti-patterns | animation, accessibility, z-index, loading |
-| `react` | React/Next.js performance | waterfall, bundle, suspense, memo, rerender, cache |
 | `web` | Web interface guidelines | aria, focus, keyboard, semantic, virtualize |
 | `prompt` | AI prompts, CSS keywords | (style name) |
 

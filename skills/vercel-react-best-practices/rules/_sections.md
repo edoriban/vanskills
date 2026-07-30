@@ -35,12 +35,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 **Impact:** MEDIUM  
 **Description:** Optimizing the rendering process reduces the work the browser needs to do.
 
-## 7. JavaScript Performance (js)
-
-**Impact:** LOW-MEDIUM  
-**Description:** Micro-optimizations for hot paths can add up to meaningful improvements.
-
-## 8. Advanced Patterns (advanced)
+## 7. Advanced Patterns (advanced)
 
 **Impact:** LOW  
 **Description:** Advanced patterns for specific cases that require careful implementation.

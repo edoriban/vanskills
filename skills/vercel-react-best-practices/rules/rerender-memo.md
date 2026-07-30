@@ -7,6 +7,8 @@ tags: rerender, memo, useMemo, optimization
 
 ## Extract to Memoized Components
 
+> Only applies when React Compiler is NOT enabled — if the project uses React 19 + Compiler (see react-19 skill), do not manually memoize.
+
 Extract expensive work into memoized components to enable early returns before computation.
 
 **Incorrect (computes avatar even when loading):**
