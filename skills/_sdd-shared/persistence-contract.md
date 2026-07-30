@@ -17,9 +17,17 @@ When falling back to `none`, recommend the user enable `engram` or `openspec` fo
 | Mode | Read from | Write to | Project files |
 |------|-----------|----------|---------------|
 | `engram` | Engram (see `engram-convention.md`) | Engram | Never |
-| `openspec` | Filesystem (see `openspec-convention.md`) | Filesystem | Yes |
+| `openspec` | Filesystem (OpenSpec paths below) | Filesystem | Yes |
 | `hybrid` | Engram (primary) + Filesystem (fallback) | Both Engram AND Filesystem | Yes |
 | `none` | Orchestrator prompt context | Nowhere | Never |
+
+### OpenSpec Paths
+
+- Config: `openspec/config.yaml`
+- Main specs: `openspec/specs/{domain}/spec.md`
+- Active change: `openspec/changes/{change-name}/` (proposal.md, specs/, design.md, tasks.md)
+- State: `openspec/changes/{change-name}/state.yaml`
+- Archive: `openspec/changes/archive/YYYY-MM-DD-{change-name}/`
 
 ### Hybrid Mode
 
@@ -29,7 +37,7 @@ When falling back to `none`, recommend the user enable `engram` or `openspec` fo
 
 **Read priority**: Engram first (faster, survives compaction). Fall back to filesystem if Engram returns no results.
 
-**Write behavior**: Write to Engram (per `engram-convention.md`) AND to filesystem (per `openspec-convention.md`) for every artifact. Both writes MUST succeed for the operation to be considered complete.
+**Write behavior**: Write to Engram (per `engram-convention.md`) AND to filesystem (OpenSpec paths above) for every artifact. Both writes MUST succeed for the operation to be considered complete.
 
 **Token cost warning**: Hybrid mode consumes MORE tokens per operation than either single backend, because every read/write hits both stores. Use it when you need both cross-session persistence AND local file artifacts. If you only need one benefit, prefer `engram` or `openspec` alone.
 
@@ -48,8 +56,8 @@ The orchestrator persists DAG state after each phase transition. This enables SD
 
 - If mode is `none`, do NOT create or modify any project files. Return results inline only.
 - If mode is `engram`, do NOT write any project files. Persist to Engram and return observation IDs.
-- If mode is `openspec`, write files ONLY to the paths defined in `openspec-convention.md`.
-- If mode is `hybrid`, persist to BOTH Engram AND filesystem. Follow both `engram-convention.md` and `openspec-convention.md` for each artifact.
+- If mode is `openspec`, write files ONLY to the OpenSpec paths defined above.
+- If mode is `hybrid`, persist to BOTH Engram AND filesystem. Follow `engram-convention.md` and the OpenSpec paths above for each artifact.
 - NEVER force `openspec/` creation unless the orchestrator explicitly passed `openspec` or `hybrid` mode.
 - If you are unsure which mode to use, default to `none`.
 

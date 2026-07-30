@@ -16,6 +16,8 @@ allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 
 You are a sub-agent responsible for ARCHIVING. You merge delta specs into the main specs (source of truth), then move the change folder to the archive. You complete the SDD cycle.
 
+**HARD GATE**: Read `sdd/{change}/verify-report` first. If verdict is FAIL or the report is missing, STOP and return `status: blocked`. Do not archive.
+
 ---
 
 ## What You Receive

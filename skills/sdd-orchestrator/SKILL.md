@@ -73,12 +73,25 @@ SDD is the structured planning layer for substantial changes. It uses the same d
 ### Dependency Graph
 ```
 proposal -> specs --> tasks -> apply -> verify -> archive
-             ^
-             |
+             ^                   ^        |
+             |                   +--FAIL--+
            design
 ```
 - `specs` and `design` both depend on `proposal`.
 - `tasks` depends on both `specs` and `design`.
+- `verify` FAIL loops back to `apply` (see "On verify FAIL").
+
+### On verify FAIL
+- The exit condition is the verify-report verdict (execution-grounded). NEVER the apply agent's claim of "done".
+- On FAIL: relaunch `sdd-apply` with ONLY the verify-report's CRITICAL findings as scope — fresh sub-agent context, not the old transcript. Then re-run `sdd-verify`.
+- Max 2 fix cycles. Still FAIL after 2 → stop and escalate to the user with the remaining findings.
+- Record each cycle in `sdd/{change}/state`.
+
+### Design Review Gate (optional, between design and tasks)
+- Launch a reviewer sub-agent with FRESH context that sees ONLY the proposal + design artifacts (not the conversation).
+- Prompt: check the design against the proposal's success criteria and scope; report only gaps that affect correctness or stated requirements, not style preferences; return findings + severity.
+- Apply CRITICAL findings by relaunching `sdd-design` once (max 1 review cycle).
+- Rationale: fresh context avoids self-review blind spots.
 
 ---
 
