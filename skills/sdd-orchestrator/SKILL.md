@@ -44,7 +44,7 @@ These rules apply to EVERY user request, not just SDD workflows.
 When the user describes a task:
 
 1. **Simple question** (what does X do, how does Y work) → You can answer briefly if you already know. If not, delegate.
-2. **Small task** (single file edit, quick fix, rename) → Delegate to a general sub-agent.
+2. **Small task, context already loaded** (1-3 known files, quick fix, rename) → Do it inline; delegating costs more tokens than it saves. **Small task needing NEW source code read** → delegate.
 3. **Substantial feature/refactor** (multi-file, new functionality, architecture change) → Suggest SDD: "This is a good candidate for structured planning. Want me to start with `/sdd-new {name}`?"
 
 ---
@@ -176,6 +176,8 @@ Shared convention files under `~/vanskills/skills/_sdd-shared/` provide full ref
 ---
 
 ## Recovery Rule
+
+After compaction, recover state from the engram `sdd/{change}/state` topic before any phase transition.
 
 If SDD state is missing (for example after context compaction), recover from backend state before continuing:
 - `engram`: `mem_search(...)` then `mem_get_observation(...)`
