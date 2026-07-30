@@ -51,14 +51,12 @@ cd ~/your-project
 |-------|-------------|
 | `typescript` | TypeScript strict patterns, const types, utility types |
 | `react-19` | React 19 patterns with React Compiler, no manual memoization |
-| `nextjs-15` | Next.js 15 App Router, Server Actions, streaming |
+| `nextjs-16` | Next.js 16 App Router, Server Actions, Cache Components, streaming |
 | `tailwind-4` | Tailwind CSS 4 patterns, cn() utility, no var() in className |
 | `pytest` | Python pytest patterns, fixtures, mocking, parametrize |
 | `playwright` | E2E testing, Page Object Model, MCP workflow |
 | `zod-4` | Zod 4 schema validation, v3->v4 migration |
 | `zustand-5` | Zustand 5 state management, selectors, persist |
-| `ai-sdk-5` | Vercel AI SDK 5, chat, streaming, tools |
-| `django-drf` | Django REST Framework patterns |
 | `rust` | Rust ownership, lifetimes, domain modeling (modular) |
 | `api-security-best-practices` | JWT, validation, rate limiting (modular) |
 
@@ -83,7 +81,7 @@ cd ~/your-project
 ./bin/install --copy
 
 # Install only specific skills (with automatic dependency resolution)
-./bin/install --skills react-19,nextjs-15,tailwind-4
+./bin/install --skills react-19,nextjs-16,tailwind-4
 
 # Disable lock file generation
 ./bin/install --no-lock
@@ -182,8 +180,8 @@ metadata:
 When installing with `--skills`, dependencies are automatically resolved:
 
 ```bash
-# This will also install typescript and react-19 if nextjs-15 depends on them
-./bin/install --skills nextjs-15
+# This will also install typescript and react-19 if nextjs-16 depends on them
+./bin/install --skills nextjs-16
 ```
 
 ## Lock File
