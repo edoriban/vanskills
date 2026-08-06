@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: coreyhaines31
   version: "1.0.0"
-  auto_invoke: "Marketing psychology / Behavioral science"
+  scope: [root]
+  auto_invoke:
+    - "Writing marketing copy that has to persuade"
+    - "Applying cognitive biases or behavioral science to a campaign"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 

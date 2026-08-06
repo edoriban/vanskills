@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD verification and quality gate"
+  auto_invoke:
+    - "Verifying a completed SDD change (/sdd-verify)"
 allowed-tools: Read, Glob, Grep, Bash
 ---
 

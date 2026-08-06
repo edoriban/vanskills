@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD technical design creation"
+  auto_invoke:
+    - "Writing the technical design of an SDD change (design phase)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 

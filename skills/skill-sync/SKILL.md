@@ -2,7 +2,7 @@
 name: skill-sync
 description: >
   Syncs skill metadata to AGENTS.md Auto-invoke sections.
-  Trigger: When updating skill metadata (metadata.scope/metadata.auto_invoke), regenerating Auto-invoke tables, or running ./bin/sync.
+  Trigger: When updating skill metadata (metadata.scope/metadata.auto_invoke), regenerating Auto-invoke tables, or running `~/vanskills/bin/sync`.
 license: MIT
 metadata:
   author: edoriban
@@ -55,7 +55,7 @@ You can define custom scopes in the sync script for project-specific AGENTS.md l
 ### After Creating/Modifying a Skill
 
 ```bash
-./bin/sync
+~/vanskills/bin/sync
 ```
 
 ### What It Does
@@ -98,10 +98,10 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
 ```bash
 # Sync AGENTS.md
-./bin/sync
+~/vanskills/bin/sync
 
 # Dry run (show what would change)
-./bin/sync --dry-run
+~/vanskills/bin/sync --dry-run
 ```
 
 ---
@@ -110,5 +110,5 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
 - [ ] Added `metadata.scope` to new/modified skill
 - [ ] Added `metadata.auto_invoke` with action description
-- [ ] Ran `./bin/sync`
+- [ ] Ran `~/vanskills/bin/sync`
 - [ ] Verified AGENTS.md updated correctly

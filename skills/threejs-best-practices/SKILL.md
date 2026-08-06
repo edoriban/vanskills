@@ -7,7 +7,11 @@ license: MIT
 metadata:
   author: pinkforest
   version: "1.0.0"
-  auto_invoke: "Three.js scene / 3D development / WebGL"
+  scope: [root]
+  auto_invoke:
+    - "Creating a Three.js scene, lighting, or materials"
+    - "Loading GLTF models or writing shaders"
+    - "Optimizing Three.js performance"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 

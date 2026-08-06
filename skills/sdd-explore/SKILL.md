@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD exploration and codebase investigation"
+  auto_invoke:
+    - "Exploring an idea before an SDD change (/sdd-explore)"
 allowed-tools: Read, Glob, Grep, Bash
 ---
 

@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD orchestration and structured development workflow"
+  auto_invoke:
+    - "Starting structured planning for a substantial change (/sdd-new, /sdd-continue, /sdd-ff)"
 allowed-tools: Read, Glob, Grep, Bash, Task
 ---
 

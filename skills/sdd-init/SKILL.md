@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD initialization and project setup"
+  auto_invoke:
+    - "Initializing SDD in a project (/sdd-init)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 

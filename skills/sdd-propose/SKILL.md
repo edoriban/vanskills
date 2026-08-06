@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD change proposal creation"
+  auto_invoke:
+    - "Writing the proposal of an SDD change (propose phase)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 

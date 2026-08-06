@@ -7,7 +7,11 @@ license: MIT
 metadata:
   author: sickn33
   version: "1.0.0"
-  auto_invoke: "API Security / Authentication"
+  scope: [root]
+  auto_invoke:
+    - "Designing or exposing an API endpoint (REST, GraphQL, WebSocket)"
+    - "Adding authentication or authorization to an API"
+    - "Reviewing an API for security issues"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 

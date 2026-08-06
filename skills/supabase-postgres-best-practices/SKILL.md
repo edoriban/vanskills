@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: supabase
   version: "1.0.0"
-  auto_invoke: "Postgres performance / Supabase"
+  scope: [root]
+  auto_invoke:
+    - "Writing or optimizing a Postgres query"
+    - "Designing a Postgres schema, index, or RLS policy"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task, Supabase
 ---
 

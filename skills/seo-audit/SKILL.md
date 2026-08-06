@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: coreyhaines31
   version: "1.0.0"
-  auto_invoke: "SEO audit / Technical SEO review"
+  scope: [root]
+  auto_invoke:
+    - "Auditing a site for SEO issues"
+    - "Reviewing meta tags, headings, or site structure for search"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task, WebFetch
 ---
 

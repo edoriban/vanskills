@@ -7,7 +7,11 @@ license: MIT
 metadata:
   author: edoriban
   version: "1.1"
-  auto_invoke: "React Native styling / React Navigation / Reanimated animations / Native modules / EAS / Offline-first mobile / RN architecture"
+  scope: [root]
+  auto_invoke:
+    - "Styling a React Native screen or component"
+    - "Setting up React Navigation or Reanimated animations"
+    - "Architecting a React Native app (native modules, EAS, offline-first)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, WebFetch, WebSearch, Task
 ---
 

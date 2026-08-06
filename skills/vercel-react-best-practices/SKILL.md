@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: vercel
   version: "1.0.0"
-  auto_invoke: "React performance / Next.js optimization"
+  scope: [root]
+  auto_invoke:
+    - "Optimizing React or Next.js rendering performance"
+    - "Reviewing data fetching or bundle size in a Next.js app"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task, WebFetch
 ---
 

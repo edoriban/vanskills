@@ -141,7 +141,7 @@ Link to external guides?    -> references/ (with local path)
 After creating the skill, run the sync command:
 
 ```bash
-./bin/sync
+~/vanskills/bin/sync
 ```
 
 This will automatically update AGENTS.md with your new skill.
@@ -157,8 +157,8 @@ This will automatically update AGENTS.md with your new skill.
 - [ ] Critical patterns are clear
 - [ ] Code examples are minimal
 - [ ] Commands section exists
-- [ ] Ran `./bin/sync` to register skill
+- [ ] Ran `~/vanskills/bin/sync` to register skill
 
 ## Resources
 
-- **Templates**: See [assets/](assets/) for SKILL.md template
+- **Templates**: See [`~/vanskills/templates/SKILL_TEMPLATE.md`](../../templates/SKILL_TEMPLATE.md) for the SKILL.md template

@@ -8,7 +8,10 @@ license: MIT
 metadata:
   author: edoriban
   version: "1.0.0"
-  auto_invoke: "Writing or refactoring Rust code"
+  scope: [root]
+  auto_invoke:
+    - "Writing or refactoring Rust code"
+    - "Debugging a borrow checker, lifetime, or Cargo error"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 
@@ -30,13 +33,13 @@ A comprehensive guide to writing safe, concurrent, and fast Rust code, derived f
 
 1. **Identify the Challenge**: determining if you are fighting the borrow checker, designing an API, or optimizing performance.
 2. **Consult Rules**:
-   - `ownership.md` / `mental-models.md`: For E0382, lifetimes, and "thinking in Rust".
-   - `domain-modeling.md`: For Entity vs Value Object decisions.
-   - `mutability.md`: For `Cell`, `RefCell`, `Mutex`, and interior mutability.
-   - `type-driven.md`: For Newtype, Builder, and Type State patterns.
-   - `error-handling.md`: For `Result`, `Option`, and error crate selection.
-   - `concurrency.md`: For `async`, `tokio`, and thread safety.
-   - `ecosystem.md`: For crate selection, Cargo features, and FFI.
+   - `rules/ownership.md` / `rules/mental-models.md`: For E0382, lifetimes, and "thinking in Rust".
+   - `rules/domain-modeling.md`: For Entity vs Value Object decisions.
+   - `rules/mutability.md`: For `Cell`, `RefCell`, `Mutex`, and interior mutability.
+   - `rules/type-driven.md`: For Newtype, Builder, and Type State patterns.
+   - `rules/error-handling.md`: For `Result`, `Option`, and error crate selection.
+   - `rules/concurrency.md`: For `async`, `tokio`, and thread safety.
+   - `rules/ecosystem.md`: For crate selection, Cargo features, and FFI.
 
 ## Core Principles
 

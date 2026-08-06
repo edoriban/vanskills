@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD specification writing"
+  auto_invoke:
+    - "Writing the specs of an SDD change (spec phase)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 

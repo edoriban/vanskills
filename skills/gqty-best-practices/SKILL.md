@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: vanskills
   version: "1.0.0"
-  auto_invoke: "GQty / GraphQL proxy client"
+  scope: [root]
+  auto_invoke:
+    - "Writing GQty queries or mutations"
+    - "Configuring GQty caching, SSR, or code generation"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 

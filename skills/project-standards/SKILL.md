@@ -1,6 +1,8 @@
 ---
 name: project-standards
-description: Package (pnpm) and Python (conda) management patterns.
+description: >
+  Package (pnpm) and Python (conda) management patterns.
+  Trigger: When installing, adding, or updating dependencies, or when creating or activating a Python environment.
 license: MIT
 metadata:
   author: edoriban

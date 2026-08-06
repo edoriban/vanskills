@@ -1,6 +1,8 @@
 ---
 name: git-convention
-description: Conventional Commits patterns with detailed body.
+description: >
+  Conventional Commits patterns with detailed body.
+  Trigger: When writing a commit message, staging a commit, or running `git commit`.
 license: MIT
 metadata:
   author: edoriban

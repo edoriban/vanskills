@@ -7,7 +7,10 @@ license: MIT
 metadata:
   author: anthropic
   version: "1.0.0"
-  auto_invoke: "UI design / Web beautification / Frontend layout"
+  scope: [root]
+  auto_invoke:
+    - "Building a web page, landing page, or dashboard UI"
+    - "Styling or beautifying an existing web interface"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash, Task
 ---
 

@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD archival and spec merging"
+  auto_invoke:
+    - "Archiving a completed SDD change (/sdd-archive)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 

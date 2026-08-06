@@ -8,7 +8,8 @@ metadata:
   author: edoriban
   version: "2.0"
   scope: [root]
-  auto_invoke: "SDD implementation and code writing"
+  auto_invoke:
+    - "Implementing the tasks of an SDD change (/sdd-apply)"
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash
 ---
 
