@@ -11,13 +11,13 @@
 | `executing` | Harness, loop, and adversarial-verification rules — the scaf... | [SKILL.md](skills/executing/SKILL.md) |
 | `fastapi` | FastAPI patterns for async APIs with Pydantic v2, dependency... | [SKILL.md](skills/fastapi/SKILL.md) |
 | `frontend-design` | Create distinctive, production-grade frontend interfaces wit... | [SKILL.md](skills/frontend-design/SKILL.md) |
-| `git-convention` | Conventional Commits patterns with detailed body. | [SKILL.md](skills/git-convention/SKILL.md) |
+| `git-convention` | Conventional Commits patterns with detailed body. Trigger: W... | [SKILL.md](skills/git-convention/SKILL.md) |
 | `github-project-setup` | Create GitHub Projects with issues, milestones, and link the... | [SKILL.md](skills/github-project-setup/SKILL.md) |
 | `gqty-best-practices` | GQty GraphQL proxy client best practices for queries, mutati... | [SKILL.md](skills/gqty-best-practices/SKILL.md) |
 | `marketing-psychology` | When the user wants to apply psychological principles, menta... | [SKILL.md](skills/marketing-psychology/SKILL.md) |
 | `nextjs-16` | Next.js 16 App Router patterns. Trigger: When working in Nex... | [SKILL.md](skills/nextjs-16/SKILL.md) |
 | `playwright` | Playwright E2E testing patterns. Trigger: When writing Playw... | [SKILL.md](skills/playwright/SKILL.md) |
-| `project-standards` | Package (pnpm) and Python (conda) management patterns. | [SKILL.md](skills/project-standards/SKILL.md) |
+| `project-standards` | Package (pnpm) and Python (conda) management patterns. Trigg... | [SKILL.md](skills/project-standards/SKILL.md) |
 | `prompting` | Prompt engineering and context engineering rules — how to wo... | [SKILL.md](skills/prompting/SKILL.md) |
 | `pytest` | Pytest testing patterns for Python. Trigger: When writing or... | [SKILL.md](skills/pytest/SKILL.md) |
 | `python` | Python idiomatic patterns, type hinting, and best practices.... | [SKILL.md](skills/python/SKILL.md) |
@@ -45,6 +45,7 @@
 | `ui-ux-pro-max` | UI/UX design intelligence with searchable database. Comprehe... | [SKILL.md](skills/ui-ux-pro-max/SKILL.md) |
 | `vercel-react-best-practices` | React and Next.js performance optimization guidelines from V... | [SKILL.md](skills/vercel-react-best-practices/SKILL.md) |
 | `vitest` | Vitest testing patterns for TypeScript/JavaScript (mocking, ... | [SKILL.md](skills/vitest/SKILL.md) |
+| `workspace-setup` | Configura el espacio de trabajo de zellij de un proyecto (de... | [SKILL.md](skills/workspace-setup/SKILL.md) |
 | `yolo` | Computer vision patterns for object detection, segmentation,... | [SKILL.md](skills/yolo/SKILL.md) |
 | `zod-4` | Zod 4 schema validation patterns. Trigger: When creating or ... | [SKILL.md](skills/zod-4/SKILL.md) |
 | `zustand-5` | Zustand 5 state management patterns. Trigger: When implement... | [SKILL.md](skills/zustand-5/SKILL.md) |
@@ -57,15 +58,20 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
 | Action | Skill |
 |--------|-------|
-| API Security / Authentication | `api-security-best-practices` |
+| Designing or exposing an API endpoint (REST, GraphQL, WebSocket) | `api-security-best-practices` |
+| Adding authentication or authorization to an API | `api-security-best-practices` |
+| Reviewing an API for security issues | `api-security-best-practices` |
 | Implementing anomaly detection models using EfficientAD | `efficientad` |
 | Designing an agent loop, verification gate, or multi-agent workflow | `executing` |
 | Writing FastAPI endpoints, dependencies, or API tests | `fastapi` |
-| UI design / Web beautification / Frontend layout | `frontend-design` |
+| Building a web page, landing page, or dashboard UI | `frontend-design` |
+| Styling or beautifying an existing web interface | `frontend-design` |
 | Creating a git commit | `git-convention` |
 | Creating GitHub Projects or bulk issues | `github-project-setup` |
-| GQty / GraphQL proxy client | `gqty-best-practices` |
-| Marketing psychology / Behavioral science | `marketing-psychology` |
+| Writing GQty queries or mutations | `gqty-best-practices` |
+| Configuring GQty caching, SSR, or code generation | `gqty-best-practices` |
+| Writing marketing copy that has to persuade | `marketing-psychology` |
+| Applying cognitive biases or behavioral science to a campaign | `marketing-psychology` |
 | App Router / Server Actions | `nextjs-16` |
 | Writing Playwright E2E tests | `playwright` |
 | Managing project dependencies or environments | `project-standards` |
@@ -73,31 +79,42 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 | Writing Python tests with pytest | `pytest` |
 | Writing or refactoring Python code | `python` |
 | Writing React components | `react-19` |
-| React Native styling / React Navigation / Reanimated animations / Native modules / EAS / Offline-first mobile / RN architecture | `react-native-design` |
+| Styling a React Native screen or component | `react-native-design` |
+| Setting up React Navigation or Reanimated animations | `react-native-design` |
+| Architecting a React Native app (native modules, EAS, offline-first) | `react-native-design` |
 | Writing or refactoring Rust code | `rust` |
-| SDD implementation and code writing | `sdd-apply` |
-| SDD archival and spec merging | `sdd-archive` |
-| SDD technical design creation | `sdd-design` |
-| SDD exploration and codebase investigation | `sdd-explore` |
-| SDD initialization and project setup | `sdd-init` |
-| SDD orchestration and structured development workflow | `sdd-orchestrator` |
-| SDD change proposal creation | `sdd-propose` |
-| SDD specification writing | `sdd-spec` |
-| SDD task breakdown creation | `sdd-tasks` |
-| SDD verification and quality gate | `sdd-verify` |
-| SEO audit / Technical SEO review | `seo-audit` |
+| Debugging a borrow checker, lifetime, or Cargo error | `rust` |
+| Implementing the tasks of an SDD change (/sdd-apply) | `sdd-apply` |
+| Archiving a completed SDD change (/sdd-archive) | `sdd-archive` |
+| Writing the technical design of an SDD change (design phase) | `sdd-design` |
+| Exploring an idea before an SDD change (/sdd-explore) | `sdd-explore` |
+| Initializing SDD in a project (/sdd-init) | `sdd-init` |
+| Starting structured planning for a substantial change (/sdd-new, /sdd-continue, /sdd-ff) | `sdd-orchestrator` |
+| Writing the proposal of an SDD change (propose phase) | `sdd-propose` |
+| Writing the specs of an SDD change (spec phase) | `sdd-spec` |
+| Breaking an SDD change into tasks (tasks phase) | `sdd-tasks` |
+| Verifying a completed SDD change (/sdd-verify) | `sdd-verify` |
+| Auditing a site for SEO issues | `seo-audit` |
+| Reviewing meta tags, headings, or site structure for search | `seo-audit` |
 | Creating new skills | `skill-creator` |
 | After creating/modifying a skill | `skill-sync` |
 | Regenerate AGENTS.md Auto-invoke tables | `skill-sync` |
 | Troubleshoot why a skill is missing from AGENTS.md | `skill-sync` |
-| Postgres performance / Supabase | `supabase-postgres-best-practices` |
+| Writing or optimizing a Postgres query | `supabase-postgres-best-practices` |
+| Designing a Postgres schema, index, or RLS policy | `supabase-postgres-best-practices` |
 | Working with Tailwind classes | `tailwind-4` |
 | Implementing code with tests, fixing bugs, or sdd-apply TDD mode | `tdd` |
-| Three.js scene / 3D development / WebGL | `threejs-best-practices` |
+| Creating a Three.js scene, lighting, or materials | `threejs-best-practices` |
+| Loading GLTF models or writing shaders | `threejs-best-practices` |
+| Optimizing Three.js performance | `threejs-best-practices` |
 | Writing TypeScript types/interfaces | `typescript` |
-| UI/UX design / Design System / Prototyping | `ui-ux-pro-max` |
-| React performance / Next.js optimization | `vercel-react-best-practices` |
+| Choosing a design system, color palette, or font pairing | `ui-ux-pro-max` |
+| Prototyping a new UI screen or flow | `ui-ux-pro-max` |
+| Optimizing React or Next.js rendering performance | `vercel-react-best-practices` |
+| Reviewing data fetching or bundle size in a Next.js app | `vercel-react-best-practices` |
 | Writing JS/TS tests with Vitest | `vitest` |
+| Agregar un proyecto al comando `work` | `workspace-setup` |
+| Crear o modificar un layout de zellij (dev.kdl) | `workspace-setup` |
 | Implementing computer vision models using YOLO | `yolo` |
 | Creating Zod schemas | `zod-4` |
 | Using Zustand stores | `zustand-5` |
@@ -106,15 +123,18 @@ When performing these actions, ALWAYS invoke the corresponding skill FIRST:
 
 ## Installation
 
-To install these skills in any project:
-
 ```bash
 # Clone vanskills (if not already)
 git clone https://github.com/edoriban/vanskills.git ~/vanskills
 
-# Run install script from target project
+# Once, for every project: symlinks each skill into ~/.claude/skills
+~/vanskills/bin/install --global
+
+# Or per project, from the target directory
 ~/vanskills/bin/install
 ```
+
+Undo the user-level install with `~/vanskills/bin/install --global-uninstall`.
 
 ## Creating New Skills
 
