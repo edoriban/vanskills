@@ -195,15 +195,18 @@ AGENTS_CONTENT="$AGENTS_CONTENT
 
 ## Installation
 
-To install these skills in any project:
-
 \`\`\`bash
 # Clone vanskills (if not already)
 git clone https://github.com/edoriban/vanskills.git ~/vanskills
 
-# Run install script from target project
+# Once, for every project: symlinks each skill into ~/.claude/skills
+~/vanskills/bin/install --global
+
+# Or per project, from the target directory
 ~/vanskills/bin/install
 \`\`\`
+
+Undo the user-level install with \`~/vanskills/bin/install --global-uninstall\`.
 
 ## Creating New Skills
 

@@ -45,6 +45,30 @@ cd ~/your-project
 ~/vanskills/bin/install
 ```
 
+### User-level installation (once, for every project)
+
+```bash
+~/vanskills/bin/install --global
+```
+
+This symlinks each skill into `~/.claude/skills/`, which Claude Code reads for
+every project regardless of the working directory. No per-project step, and no
+copy that can go stale. Undo it with:
+
+```bash
+~/vanskills/bin/install --global-uninstall
+```
+
+Notes:
+
+- Claude Code resolves a name collision in favour of the user level, so a
+  project-level skill of the same name does not shadow the user-level one.
+- A skill reachable from both levels through the same target is loaded once.
+- Cowork and cloud sessions do not read `~/.claude/skills/`; those still need
+  the skill committed to the repository or shipped in a plugin.
+- The per-project install also writes `CLAUDE.md` / `AGENTS.md`; `--global`
+  does not, so keep the per-project install where you want those files.
+
 ## Available Skills
 
 | Skill | Description |

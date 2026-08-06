@@ -29,6 +29,9 @@ SETUP_COPILOT=false
 USE_SYMLINKS=true
 SELECTED_SKILLS=""
 GENERATE_LOCK=true
+GLOBAL_INSTALL=false
+GLOBAL_UNINSTALL=false
+GLOBAL_SKILLS_DIR="$HOME/.claude/skills"
 
 show_help() {
     echo "Usage: $0 [OPTIONS]"
@@ -36,6 +39,8 @@ show_help() {
     echo "Install VanSkills to a project directory."
     echo ""
     echo "Options:"
+    echo "  --global          Install once for the user (~/.claude/skills), all projects see it"
+    echo "  --global-uninstall  Remove the ~/.claude/skills symlinks created by --global"
     echo "  --target DIR      Target project directory (default: current directory)"
     echo "  --all             Configure all AI assistants"
     echo "  --claude          Configure Claude Code"
@@ -375,6 +380,65 @@ setup_codex() {
     fi
 }
 
+# Install at user level: one symlink per skill in ~/.claude/skills.
+# Claude Code reads that directory for every project, follows symlinks, and
+# deduplicates a skill whose target is reachable from more than one level.
+setup_global() {
+    echo -e "${YELLOW}Setting up user-level skills in $GLOBAL_SKILLS_DIR...${NC}"
+
+    mkdir -p "$GLOBAL_SKILLS_DIR"
+
+    local linked=0 skipped=0
+
+    while IFS= read -r skill_file; do
+        local skill_source
+        local skill_name
+        skill_source="$(dirname "$skill_file")"
+        skill_name="$(basename "$skill_source")"
+
+        local target="$GLOBAL_SKILLS_DIR/$skill_name"
+
+        if [ -L "$target" ]; then
+            if [ "$(readlink "$target")" = "$skill_source" ]; then
+                linked=$((linked + 1))
+                continue
+            fi
+            echo -e "${YELLOW}    skip $skill_name (symlink points elsewhere)${NC}"
+            skipped=$((skipped + 1))
+            continue
+        fi
+
+        if [ -e "$target" ]; then
+            echo -e "${YELLOW}    skip $skill_name (a real directory already exists)${NC}"
+            skipped=$((skipped + 1))
+            continue
+        fi
+
+        ln -s "$skill_source" "$target"
+        linked=$((linked + 1))
+    done < <(find "$SKILLS_SOURCE" -mindepth 2 -maxdepth 2 -name SKILL.md -print | sort)
+
+    echo -e "${GREEN}    -> $linked skill(s) linked, $skipped skipped${NC}"
+}
+
+uninstall_global() {
+    echo -e "${YELLOW}Removing user-level skill symlinks from $GLOBAL_SKILLS_DIR...${NC}"
+
+    local removed=0
+
+    for target in "$GLOBAL_SKILLS_DIR"/*; do
+        [ -L "$target" ] || continue
+        case "$(readlink "$target")" in
+            "$SKILLS_SOURCE"/*)
+                rm "$target"
+                removed=$((removed + 1))
+                ;;
+        esac
+    done
+
+    echo -e "${GREEN}    -> $removed symlink(s) removed${NC}"
+}
+
 setup_copilot() {
     echo -e "${YELLOW}Setting up GitHub Copilot...${NC}"
 
@@ -388,6 +452,14 @@ setup_copilot() {
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
+        --global)
+            GLOBAL_INSTALL=true
+            shift
+            ;;
+        --global-uninstall)
+            GLOBAL_UNINSTALL=true
+            shift
+            ;;
         --target)
             TARGET_DIR="$2"
             shift 2
@@ -438,6 +510,29 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# User-level modes short-circuit: they touch no project directory
+if $GLOBAL_UNINSTALL; then
+    echo -e "${BLUE}VanSkills - user-level uninstall${NC}"
+    echo ""
+    uninstall_global
+    echo ""
+    echo -e "${BLUE}Restart your AI assistant to unload the skills.${NC}"
+    exit 0
+fi
+
+if $GLOBAL_INSTALL; then
+    echo -e "${BLUE}VanSkills - user-level install${NC}"
+    echo ""
+    echo -e "Source:  ${CYAN}$SKILLS_SOURCE${NC}"
+    echo -e "Target:  ${CYAN}$GLOBAL_SKILLS_DIR${NC}"
+    echo ""
+    setup_global
+    echo ""
+    echo -e "${GREEN}Installation complete!${NC}"
+    echo -e "${BLUE}Every project now sees these skills. Undo with --global-uninstall.${NC}"
+    exit 0
+fi
 
 # Default to current directory
 [ -z "$TARGET_DIR" ] && TARGET_DIR="$(pwd)"
